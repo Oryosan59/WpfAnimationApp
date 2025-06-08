@@ -1,0 +1,110 @@
+﻿<Window x:Class="WpfAnimationApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="スタート画面" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <!-- フェードインアニメーション -->
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="MainGrid"
+                           Storyboard.TargetProperty="Opacity"
+                           From="0" To="1" Duration="0:0:1.5"/>
+        </Storyboard>
+
+        <!-- フェードアウトアニメーション -->
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="MainGrid"
+                           Storyboard.TargetProperty="Opacity"
+                           From="1" To="0" Duration="0:0:0.8"/>
+        </Storyboard>
+
+        <!-- タイトルのスケールアニメーション -->
+        <Storyboard x:Key="TitleScaleStoryboard">
+            <DoubleAnimation Storyboard.TargetName="TitleScale"
+                           Storyboard.TargetProperty="ScaleX"
+                           From="0.8" To="1.0" Duration="0:0:1"
+                           AutoReverse="True" RepeatBehavior="Forever"/>
+            <DoubleAnimation Storyboard.TargetName="TitleScale"
+                           Storyboard.TargetProperty="ScaleY"
+                           From="0.8" To="1.0" Duration="0:0:1"
+                           AutoReverse="True" RepeatBehavior="Forever"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid Name="MainGrid" Opacity="0">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF1e3c72" Offset="0"/>
+                <GradientStop Color="#FF2a5298" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- アプリタイトル -->
+            <TextBlock Text="MyApplication" 
+                      FontSize="48" 
+                      FontWeight="Bold" 
+                      Foreground="White"
+                      HorizontalAlignment="Center"
+                      Margin="0,0,0,50">
+                <TextBlock.RenderTransform>
+                    <ScaleTransform x:Name="TitleScale"/>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+
+            <!-- スタートボタン -->
+            <Button Name="StartButton" 
+                   Content="スタート" 
+                   FontSize="24"
+                   Padding="30,15"
+                   Click="StartButton_Click"
+                   Style="{DynamicResource StartButtonStyle}"/>
+        </StackPanel>
+
+        <!-- バージョン情報 -->
+        <TextBlock Text="Version 1.0" 
+                  Foreground="White" 
+                  Opacity="0.7"
+                  HorizontalAlignment="Right" 
+                  VerticalAlignment="Bottom"
+                  Margin="20"/>
+    </Grid>
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Style.Resources>
+                <!-- スタートボタンのスタイル -->
+                <Style x:Key="StartButtonStyle" TargetType="Button">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                       BorderBrush="{TemplateBinding BorderBrush}"
+                                       BorderThickness="{TemplateBinding BorderThickness}"
+                                       CornerRadius="25">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                        <Setter Property="Foreground" Value="#FF1e3c72"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Style>
+</Window>

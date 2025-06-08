@@ -1,0 +1,108 @@
+﻿<Window x:Class="WpfAnimationApp.LoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ロード画面" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <!-- フェードインアニメーション -->
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="MainGrid"
+                           Storyboard.TargetProperty="Opacity"
+                           From="0" To="1" Duration="0:0:0.8"/>
+        </Storyboard>
+
+        <!-- フェードアウトアニメーション -->
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="MainGrid"
+                           Storyboard.TargetProperty="Opacity"
+                           From="1" To="0" Duration="0:0:0.8"/>
+        </Storyboard>
+
+        <!-- スピナーの回転アニメーション -->
+        <Storyboard x:Key="SpinnerStoryboard">
+            <DoubleAnimation Storyboard.TargetName="SpinnerRotate"
+                           Storyboard.TargetProperty="Angle"
+                           From="0" To="360" Duration="0:0:1"
+                           RepeatBehavior="Forever"/>
+        </Storyboard>
+
+        <!-- プログレスバーのアニメーション -->
+        <Storyboard x:Key="ProgressStoryboard">
+            <DoubleAnimation Storyboard.TargetName="ProgressBar"
+                           Storyboard.TargetProperty="Value"
+                           From="0" To="100" Duration="0:0:3"/>
+        </Storyboard>
+
+        <!-- テキストの点滅アニメーション -->
+        <Storyboard x:Key="LoadingTextStoryboard">
+            <DoubleAnimation Storyboard.TargetName="LoadingText"
+                           Storyboard.TargetProperty="Opacity"
+                           From="0.5" To="1.0" Duration="0:0:0.8"
+                           AutoReverse="True" RepeatBehavior="Forever"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid Name="MainGrid" Opacity="0" MouseLeftButtonUp="MainGrid_MouseLeftButtonUp">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF0f0c29" Offset="0"/>
+                <GradientStop Color="#FF24243e" Offset="0.5"/>
+                <GradientStop Color="#FF302b63" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- スピナー -->
+            <Ellipse Width="80" Height="80" 
+                    Stroke="White" 
+                    StrokeThickness="4"
+                    StrokeDashArray="20,20"
+                    Margin="0,0,0,30">
+                <Ellipse.RenderTransform>
+                    <RotateTransform x:Name="SpinnerRotate" CenterX="40" CenterY="40"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <!-- ローディングテキスト -->
+            <TextBlock x:Name="LoadingText"
+                      Text="Loading..." 
+                      FontSize="24" 
+                      Foreground="White"
+                      HorizontalAlignment="Center"
+                      Margin="0,0,0,30"/>
+
+            <!-- プログレスバー -->
+            <ProgressBar x:Name="ProgressBar"
+                        Width="300"
+                        Height="10"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="0"
+                        Foreground="#FF00ff88"
+                        Background="Transparent"
+                        BorderThickness="1"
+                        BorderBrush="White"/>
+
+            <!-- パーセンテージ表示 -->
+            <TextBlock x:Name="PercentageText"
+                      Text="0%"
+                      FontSize="16"
+                      Foreground="White"
+                      HorizontalAlignment="Center"
+                      Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <!-- クリック指示 -->
+        <TextBlock Text="クリックしてメイン画面へ" 
+                  Foreground="White" 
+                  Opacity="0.7"
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Bottom"
+                  Margin="20"
+                  FontSize="14"/>
+    </Grid>
+</Window>
